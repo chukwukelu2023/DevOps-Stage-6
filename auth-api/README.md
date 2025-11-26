@@ -35,4 +35,3 @@ source .env && ./auth-api
 
 # Method 3: Run in development mode using go run
 go run main.go
-
