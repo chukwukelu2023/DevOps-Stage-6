@@ -1,17 +1,7 @@
-# FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
-# FROM maven:3.8.7 AS build
 FROM maven:3.9.6-eclipse-temurin-8 AS build
 
 WORKDIR /app
 
-# Copy Maven Wrapper files
-# COPY mvnw .
-# COPY mvnw.cmd .
-# COPY .mvn .mvn
-
-# RUN chmod +x mvnw
-
-# Copy pom.xml alone
 COPY pom.xml .
 
 # Pre-download dependencies
@@ -20,7 +10,6 @@ RUN mvn dependency:go-offline -B
 # Now copy source code
 COPY src ./src
 
-# RUN ./mvnw clean install -DskipTests
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:8-jre-alpine
