@@ -59,6 +59,6 @@ variable "associate_pub_ip" {
 }
 
 variable "cloudflare_api_token" {
-  type = string
+  type        = string
   description = "Cloudflare api token"
 }
