@@ -44,6 +44,6 @@ sg_rule = {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-ec2_instance_ami  = "ami-0fa91bc90632c73c9"
+ec2_instance_ami  = "ami-01fd6fa49060e89a6"
 ec2_instance_type = "t3.medium"
 associate_pub_ip  = true
