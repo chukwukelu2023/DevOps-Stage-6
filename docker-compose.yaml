@@ -113,19 +113,11 @@ services:
     image: openzipkin/zipkin
     container_name: zipkin
     ports:
-      - 9411:9411
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.zipkin.rule=Host(`chukwukelu.online`) && PathPrefix(`/zipkin`)"
-      - "traefik.http.routers.zipkin.entrypoints=websecure"
-      - "traefik.http.routers.zipkin.tls.certresolver=le"
-      - "traefik.http.services.zipkin.loadbalancer.server.port=9411"
-      - "traefik.http.middlewares.zipkin-strip.stripprefix.prefixes=/zipkin"
-      - "traefik.http.routers.zipkin.middlewares=zipkin-strip"
+      - 8085:9411
     restart: on-failure
 
   traefik:
-    image: traefik:v3.0
+    image: traefik:3.6.2
     container_name: traefik
     command:
       - "--providers.docker=true"

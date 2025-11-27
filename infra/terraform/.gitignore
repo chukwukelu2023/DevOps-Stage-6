@@ -1,0 +1,4 @@
+.terraform
+.terraform.lock.hcl
+dynamic-ubuntu-key.pem
+terraform.tfstate*
