@@ -127,7 +127,7 @@ jobs:
 
   apply:
     needs: plan
-    if: github.event.inputs.action == 'apply'
+    # if: github.event.inputs.action == 'apply'
     runs-on: ubuntu-latest
 
     environment: terraform  #  manual approval
@@ -145,6 +145,9 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
 
       # - name: Terraform Apply
       #   run: terraform apply -auto-approve
