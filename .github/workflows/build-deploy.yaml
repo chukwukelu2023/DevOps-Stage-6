@@ -63,12 +63,12 @@ jobs:
         run: terraform plan
         continue-on-error: false
         
-      # - name: Terraform Apply
-      #   id: apply
-      #   if: ${{ github.event.inputs.action == 'apply'}}
-      #   run: terraform apply -auto-approve
+      - name: Terraform Apply
+        id: apply
+        if: ${{ github.event.inputs.action == 'apply'}}
+        run: terraform apply -auto-approve
 
-      # - name: Terraform destroy
-      #   id: destroy
-      #   if: ${{ github.event.inputs.action == 'destroy'}}
-      #   run: terraform destroy -auto-approve
+      - name: Terraform destroy
+        id: destroy
+        if: ${{ github.event.inputs.action == 'destroy'}}
+        run: terraform destroy -auto-approve
