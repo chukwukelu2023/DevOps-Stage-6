@@ -62,3 +62,32 @@ variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare api token"
 }
+
+# variable "region" {
+#   type        = string
+#   description = "AWS region for resource deployment."
+# }
+
+# variable "aws_key" {
+#   type        = string
+#   description = "AWS Access Key"
+# }
+
+# variable "aws_secret" {
+#   type        = string
+#   description = "AWS Secret key"
+# }
+
+# variable "B2_Bucket_key" {
+#   type = string
+#   description = "B2_Bucket Access Key"
+# }
+
+# variable "B2_Bucket_secret" {
+#   type = string
+#   description = "B2_Bucket Secret key"
+# }
+variable "cloudflare_zone_id" {
+  type        = string
+  description = "Cloudflare Zone Id"
+}

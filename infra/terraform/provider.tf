@@ -15,27 +15,17 @@ terraform {
 
   }
   backend "s3" {
-    bucket     = "oluchicompute"
-    key        = "compute/terraform.tfstate"
-    region     = "eu-central-2"
-    access_key = "*********************"
-    secret_key = "*********************"
-    endpoints = {
-      s3 = "https://s3.eu-central-003.backblazeb2.com"
-    }
-    skip_region_validation      = true
-    skip_credentials_validation = true
-    skip_metadata_api_check     = true
-    skip_requesting_account_id  = true
-    skip_s3_checksum            = true
+    bucket = "devops-stage6"
+    key    = "terraform/terraform.tfstate"
+    region = "eu-north-1"
   }
 }
 
 provider "aws" {
   # Configuration options
-  region     = "eu-north-1"
-  access_key = "********************"
-  secret_key = "********************"
+  # region = var.region
+  # access_key = var.aws_key
+  # secret_key = var.aws_secret
   default_tags {
     tags = {
       track = "devops"
@@ -46,5 +36,5 @@ provider "aws" {
 
 
 provider "cloudflare" {
-  api_token = var.cloudflare_api_token
+  # api_token = var.cloudflare_api_token
 }
