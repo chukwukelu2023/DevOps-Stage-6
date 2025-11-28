@@ -47,4 +47,4 @@ sg_rule = {
 ec2_instance_ami     = "ami-01fd6fa49060e89a6"
 ec2_instance_type    = "t3.medium"
 associate_pub_ip     = true
-cloudflare_api_token = "*********************"
+ec2_key_name = "ec2-key"

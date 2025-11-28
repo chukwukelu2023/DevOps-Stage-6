@@ -58,9 +58,14 @@ variable "associate_pub_ip" {
   description = "(Optional) Whether to associate a public IP address with an instance in a VPC."
 }
 
-variable "cloudflare_api_token" {
-  type        = string
-  description = "Cloudflare api token"
+# variable "cloudflare_api_token" {
+#   type        = string
+#   description = "Cloudflare api token"
+# }
+
+variable "ec2_key_name" {
+  type = string
+  description = "The name of the key for ec2"
 }
 
 # variable "region" {

@@ -1,13 +1,13 @@
 resource "time_sleep" "delay_configuration" {
-  create_duration = "30s"
+  create_duration = "2m"
 }
 
 resource "local_file" "inventory" {
   filename   = "${path.module}/../ansible/inventory.ini"
   content    = <<-EOT
-[webserver]
-${aws_instance.this.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file="${path.module}/../terraform/dynamic-ubuntu-key.pem"
-EOT
+      [webserver]
+      ${aws_instance.this.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file="~/.ssh/id_rsa"
+      EOT
   depends_on = [aws_instance.this, cloudflare_dns_record.dns_record,time_sleep.delay_configuration]
 
 
@@ -20,5 +20,4 @@ resource "null_resource" "provision" {
   }
 
   depends_on = [aws_instance.this, local_file.inventory]
-
 }
