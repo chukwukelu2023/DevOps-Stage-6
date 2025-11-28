@@ -2,14 +2,14 @@
 - name: Pull latest changes
   ansible.builtin.git:
     repo: "{{ repo_url }}"
-    dest: "{{ repo_dest }}"
+    dest: "{{ repo_dest }}/DevOps-Stage-6"
     version: "{{ repo_branch }}"
     update: yes
     force: yes
 
 - name: Ensure docker-compose.yml exists
   ansible.builtin.stat:
-    path: "{{ repo_dest }}/DevOps-Stage-6/docker-compose.yml"
+    path: "{{ repo_dest }}/DevOps-Stage-6/docker-compose.yaml"
   register: compose_file
 
 - name: Fail if docker-compose.yml is missing
@@ -23,22 +23,27 @@
 
 - name: Create letsencrypt directory exists
   ansible.builtin.file:
-    path: "{{ project_dir }}/letsencrypt"
+    path: "{{ repo_dest }}/DevOps-Stage-6/letsencrypt"
     state: directory
     mode: '0755'
 
 - name: Create acme.json file exists
   ansible.builtin.file:
-    path: "{{ project_dir }}/letsencrypt/acme.json"
+    path: "{{ repo_dest }}/DevOps-Stage-6/letsencrypt/acme.json"
     state: touch
     mode: '0600'
 
-- name: Run docker compose to deploy the application
-  ansible.builtin.command:
-    argv:
-      - docker
-      - compose
-      - up
-      - -d
-      - --build
-    chdir: "{{ repo_dest }}/DevOps-Stage-6"
+- name: Run Docker Compose (Compose V2)
+  community.docker.docker_compose_v2:
+    project_src: "{{ repo_dest }}/DevOps-Stage-6"
+    state: present
+
+# - name: Run docker compose to deploy the application
+#   ansible.builtin.command:
+#     argv:
+#       - docker
+#       - compose
+#       - up
+#       - -d
+#       - --build
+#     chdir: "{{ repo_dest }}/DevOps-Stage-6"

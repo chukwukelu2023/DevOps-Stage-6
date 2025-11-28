@@ -4,10 +4,11 @@ resource "local_file" "inventory" {
 [webserver]
 ${aws_instance.this.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file="${path.module}/../terraform/dynamic-ubuntu-key.pem"
 EOT
-  depends_on = [aws_instance.this]
+  depends_on = [aws_instance.this, cloudflare_dns_record.dns_record]
 
 
 }
+
 
 resource "null_resource" "provision" {
   provisioner "local-exec" {
