@@ -31,7 +31,7 @@ jobs:
   plan:
     needs: check-changed-directory
     # if: contains(needs.check-changed-directory.outputs.check-changes, '/infra/')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     defaults:
       run:
@@ -57,7 +57,7 @@ jobs:
 
   apply:
     needs: plan
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     environment: terraform  #  manual approval
     
@@ -96,7 +96,7 @@ jobs:
   update-auth:
     needs: check-changed-directory
     if: contains(needs.check-changed-directory.outputs.check-changes, '/auth-api/')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./infra/ansible
@@ -111,7 +111,7 @@ jobs:
   update-frontend:
     needs: check-changed-directory
     if: contains(needs.check-changed-directory.outputs.check-changes, '/frontend/')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./infra/ansible
@@ -125,7 +125,7 @@ jobs:
   update-log:
     needs: check-changed-directory
     if: contains(needs.check-changed-directory.outputs.check-changes, '/log-message-processor/')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./infra/ansible
@@ -139,7 +139,7 @@ jobs:
   update-todos:
     needs: check-changed-directory
     if: contains(needs.check-changed-directory.outputs.check-changes, '/todos-api/')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./infra/ansible
@@ -153,7 +153,7 @@ jobs:
   update-users:
     needs: check-changed-directory
     if: contains(needs.check-changed-directory.outputs.check-changes, '/users-api/')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./infra/ansible
@@ -167,7 +167,7 @@ jobs:
   update-all:
     needs: check-changed-directory
     if: contains(needs.check-changed-directory.outputs.check-changes, 'docker-compose.yaml')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./infra/ansible
