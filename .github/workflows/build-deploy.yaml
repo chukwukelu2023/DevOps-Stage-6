@@ -30,8 +30,8 @@ jobs:
 
   plan:
     needs: check-changed-directory
-    if: contains(needs.check-changed-directory.outputs.check-changes, '/infra/')
-    runs-on: ubuntu-latest
+    # if: contains(needs.check-changed-directory.outputs.check-changes, '/infra/')
+    runs-on: self-hosted
 
     defaults:
       run:
