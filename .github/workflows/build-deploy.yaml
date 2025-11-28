@@ -1,3 +1,79 @@
+# name: deploy resources
+
+# env:
+#   TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+#   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+#   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#   AWS_REGION: ${{ vars.AWS_REGION }}
+
+# on:
+#     workflow_dispatch:
+#       inputs:
+#         action:
+#           type: choice
+#           description: 'Select an action to perform'
+#           options:
+#             - apply
+#             - destroy
+#           required: true
+#           default: apply
+#     push:
+#       branches:
+#        - main
+  
+    
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+
+#     defaults:
+#       run:
+#         working-directory: ./infra/terraform
+    
+#     steps:
+#       - name: Check out to repo
+#         uses: actions/checkout@v4
+      
+#       - name: Set Up Terraform
+#         uses: hashicorp/setup-terraform@v3
+
+#       - name: Run a multi-line script
+#         run: |
+#           echo Add other actions to build,
+#           echo "Deploying to ${{ github.event.inputs.action }} environment".
+        
+
+#       - name: Terraform Init
+#         id: init
+#         run: terraform init
+
+#       - name: Terraform fmt
+#         id: fmt
+#         run: terraform fmt
+#         continue-on-error: true
+
+#       - name: Terraform Validate
+#         id: validate
+#         run: terraform validate
+#         continue-on-error: false
+
+#       - name: Terraform Plan
+#         id: plan
+#         run: terraform plan
+#         continue-on-error: false
+        
+#       - name: Terraform Apply
+#         id: apply
+#         if: ${{ github.event.inputs.action == 'apply'}}
+#         run: terraform apply -auto-approve
+
+#       - name: Terraform destroy
+#         id: destroy
+#         if: ${{ github.event.inputs.action == 'destroy'}}
+#         run: terraform destroy -auto-approve
+
+
 name: deploy resources
 
 env:
@@ -8,67 +84,67 @@ env:
   AWS_REGION: ${{ vars.AWS_REGION }}
 
 on:
-    workflow_dispatch:
-      inputs:
-        action:
-          type: choice
-          description: 'Select an action to perform'
-          options:
-            - apply
-            - destroy
-          required: true
-          default: apply
-    push:
-      branches:
-       - main
-  
-    
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        description: 'Select an action to perform'
+        options:
+          - apply
+          - destroy
+        required: true
+        default: apply
+
+  push:
+    branches:
+      - main
+
 jobs:
-  build-and-deploy:
+  plan:
     runs-on: ubuntu-latest
 
     defaults:
       run:
         working-directory: ./infra/terraform
-    
+
+    outputs:
+      plan_exit_code: ${{ steps.plan.outcome }}
+
     steps:
-      - name: Check out to repo
+      - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Set Up Terraform
+
+      - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo "Deploying to ${{ github.event.inputs.action }} environment".
-        
-
       - name: Terraform Init
-        id: init
         run: terraform init
-
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt
-        continue-on-error: true
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate
-        continue-on-error: false
 
       - name: Terraform Plan
         id: plan
         run: terraform plan
-        continue-on-error: false
-        
-      - name: Terraform Apply
-        id: apply
-        if: ${{ github.event.inputs.action == 'apply'}}
-        run: terraform apply -auto-approve
+  
 
-      - name: Terraform destroy
-        id: destroy
-        if: ${{ github.event.inputs.action == 'destroy'}}
-        run: terraform destroy -auto-approve
+  apply:
+    needs: plan
+    if: github.event.inputs.action == 'apply'
+    runs-on: ubuntu-latest
+
+    environment: terraform  #  manual approval
+    
+    defaults:
+      run:
+        working-directory: ./infra/terraform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
