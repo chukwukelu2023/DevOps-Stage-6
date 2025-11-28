@@ -37,6 +37,13 @@
   community.docker.docker_compose_v2:
     project_src: "{{ repo_dest }}/DevOps-Stage-6"
     state: present
+    services: "{{ service_name | default(omit) }}"
+
+
+# - name: Run Docker Compose (Compose V2)
+#   community.docker.docker_compose_v2:
+#     project_src: "{{ repo_dest }}/DevOps-Stage-6"
+#     state: present
 
 # - name: Run docker compose to deploy the application
 #   ansible.builtin.command:

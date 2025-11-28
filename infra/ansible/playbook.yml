@@ -6,5 +6,7 @@
     repo_dest: "/home/ubuntu"
     repo_branch: "main"
   roles:
-    - dependencies
-    - deploy
+    - role: dependencies
+      tags: dependencies
+    - role: deploy
+      tags: deploy
