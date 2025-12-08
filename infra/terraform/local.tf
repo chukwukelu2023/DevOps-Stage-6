@@ -46,5 +46,5 @@ resource "null_resource" "provision" {
     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${path.module}/../ansible/inventory.ini ${path.module}/../ansible/playbook.yml"
   }
 
-  depends_on = [aws_instance.this, local_file.inventory]
+  depends_on = [aws_instance.this, null_resource.inventory]
 }
