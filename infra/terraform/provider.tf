@@ -15,7 +15,7 @@ terraform {
 
   }
   backend "s3" {
-    bucket = "devops-stage6"
+    bucket = "devops-stage7"
     key    = "terraform/terraform.tfstate"
     region = "eu-north-1"
   }
