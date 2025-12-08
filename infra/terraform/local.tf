@@ -19,6 +19,7 @@ resource "null_resource" "inventory" {
 
    triggers = {
     instance_ip = aws_instance.this.public_ip
+    instance_id = aws_instance.this.id
   }
   depends_on = [
     aws_instance.this,
@@ -38,6 +39,9 @@ resource "null_resource" "inventory" {
 }
 
 resource "null_resource" "provision" {
+   triggers = {
+    instance_ip = aws_instance.this.public_ip
+  }
   provisioner "local-exec" {
     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${path.module}/../ansible/inventory.ini ${path.module}/../ansible/playbook.yml"
   }
